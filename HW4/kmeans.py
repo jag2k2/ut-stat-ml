@@ -48,9 +48,11 @@ thre = 0.00001
 iter_num = 200
 Means = np.zeros([iter_num, 10])                                          # Initialize 1D numpy array that holds the centroids
 
+number_of_rows = data.shape[0]                                        # Data has 500 two diminesional data points
+Mean = data[np.random.choice(number_of_rows, k, replace=False)]       # Randomly select k data points as initial cluster means
+
 for iter_id in range(iter_num):
-    number_of_rows = data.shape[0]                                        # Data has 500 two diminesional data points
-    Mean = data[np.random.choice(number_of_rows, k, replace=False)]       # Randomly select k data points as initial cluster means
+
     centroid_list = kmeans(data, k, thre, Mean)                           # Calculate the kmeans of the data set
     Means[iter_id] = centroid_list.flatten()                                  
 

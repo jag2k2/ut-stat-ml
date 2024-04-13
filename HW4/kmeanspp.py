@@ -23,7 +23,7 @@ def evaluate(Means, data):
 
 # K-mean
 def kmeans(data, k, thre, Mean):
-    centroids = Mean
+    centroids = Mean.copy()
     prev_centroids = np.zeros(centroids.shape)
 
     while np.linalg.norm(centroids - prev_centroids) > thre:            # Check to see if centroids have converged
@@ -46,8 +46,6 @@ def kmeans(data, k, thre, Mean):
 # Function for inverse transform sampling
 def inverse_transform_sampling(p, u):
     cumulative_prob = np.cumsum(p)
-    # new_index = np.argmax(cumulative_prob > u)
-    # new_index = np.random.choice(len(data), p = p)
     Mean = np.searchsorted(cumulative_prob, u)
     return Mean
 
@@ -79,14 +77,12 @@ thre = 0.00001
 iter_num = 200
 Means = np.zeros([iter_num, 10])                                          # Initialize 1D numpy array that holds the centroids
 
-for iter_id in range(iter_num):
-    number_of_rows = data.shape[0]                                        # Data has 500 two diminesional data points
+for iter_id in range(iter_num):                                           # Data has 500 two diminesional data points
     Mean = kmeans_plusplus_initial(data, k)
     centroid_list = kmeans(data, k, thre, Mean)                           # Calculate the kmeans of the data set
     Means[iter_id] = centroid_list.flatten()                                  
 
 err_mean, err_min, err_std = evaluate(Means, data)                        
-
 
 def plot_clusters(data, means):
     plt.figure(figsize=(8, 6))
